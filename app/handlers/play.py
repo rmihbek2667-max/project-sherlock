@@ -36,7 +36,8 @@ async def _get_current_clue(session, season: Season) -> Clue | None:
     result = await session.execute(
         select(Clue)
         .where(Clue.season_id == season.id)
-        .where((Clue.release_at.is_(None)) | (Clue.release_at <= now))
+        .where(Clue.release_at.is_not(None))
+        .where(Clue.release_at <= now)
         .order_by(Clue.day_number)
     )
     return list(result.scalars().all())
