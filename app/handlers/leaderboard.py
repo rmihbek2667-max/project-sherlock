@@ -32,7 +32,8 @@ async def cmd_leaderboard(message: Message, db_user: User, session, state: FSMCo
     lines = [t("leaderboard_header", db_user.language), ""]
     for i, row in enumerate(rows):
         medal = MEDALS[i] if i < 3 else f"{i + 1}."
-        name = row["full_name"] or row["username"] or "Detective"
-        lines.append(t("leaderboard_row", db_user.language, medal=medal, name=name, score=row["total_points"]))
-
+        display_name = row["full_name"] or "Detective"
+        if row["username"]:
+          display_name = f"{display_name} (@{row['username']})"
+        lines.append(t("leaderboard_row", db_user.language, medal=medal, name=display_name, score=row["total_points"]))
     await message.answer("\n".join(lines))
