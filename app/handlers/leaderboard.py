@@ -24,7 +24,7 @@ async def cmd_leaderboard(message: Message, db_user: User, session, state: FSMCo
         await message.answer(t("no_active_season", db_user.language))
         return
 
-    rows = await get_leaderboard(session, season.id, limit=10)
+    rows = await get_leaderboard(session, season.id, limit=15)
     if not rows:
         await message.answer(t("no_active_season", db_user.language))
         return
